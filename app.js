@@ -1,15 +1,22 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-var users = require('./routes/users');
+const config = require('./config/config');
 
-var app = express();
+const users = require('./routes/users');
+const weights = require('./routes/weights');
+
+let app = express();
 
 const port = 8000;
+
+mongoose.connect(config.database, {
+    useMongoClient: true
+});
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
@@ -18,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/users', users);
+app.use('/weights', weights);
 
 app.get('/', (req, res) => {
     res.send('Welcome to weightes');
