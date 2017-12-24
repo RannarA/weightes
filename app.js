@@ -18,6 +18,8 @@ mongoose.connect(config.database, {
     useMongoClient: true
 });
 
+app.set('jwtSecret', config.secret);
+
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
 app.use(bodyParser.json());
